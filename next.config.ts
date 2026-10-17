@@ -5,7 +5,12 @@ const nextConfig: NextConfig = {
     serverActions: { allowedOrigins: ['localhost:3000'] },
   },
   images: {
-    remotePatterns: [],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+    ],
   },
 };
 

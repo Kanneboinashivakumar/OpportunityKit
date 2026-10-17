@@ -94,6 +94,15 @@ function LoginForm() {
         </p>
       </div>
 
+      {(searchParams.get('setup') === 'supabase' || !supabase) && (
+        <div className="p-4 rounded-2xl bg-[#FEF3C7]/70 border border-[#FDE68A] text-[#92400E] text-xs space-y-1 shadow-2xs">
+          <p className="font-semibold text-sm text-[#78350F]">Supabase Setup Required</p>
+          <p className="leading-relaxed">
+            Authentication and data persistence require your Supabase project keys. Copy <code className="bg-white/80 px-1 py-0.5 rounded font-mono text-[11px]">.env.example</code> to <code className="bg-white/80 px-1 py-0.5 rounded font-mono text-[11px]">.env.local</code> and set <code className="bg-white/80 px-1 py-0.5 rounded font-mono text-[11px]">NEXT_PUBLIC_SUPABASE_URL</code> and <code className="bg-white/80 px-1 py-0.5 rounded font-mono text-[11px]">NEXT_PUBLIC_SUPABASE_ANON_KEY</code>.
+          </p>
+        </div>
+      )}
+
       {/* Social Logins */}
       <div className="grid grid-cols-2 gap-3">
         <Button
