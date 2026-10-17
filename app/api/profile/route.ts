@@ -44,9 +44,36 @@ export async function PUT(request: Request) {
     return NextResponse.json({ error: 'Validation failed', details: parsed.error.flatten() }, { status: 400 });
   }
 
+  // Known standard columns from 001 and 002 schema
+  const knownCols = new Set([
+    'full_name', 'degree', 'branch', 'academic_year', 'cgpa', 'cgpa_scale',
+    'marks_percentage', 'annual_income', 'skills', 'skill_gaps', 'documents',
+    'location', 'work_authorization', 'team_size', 'github_url', 'portfolio_url',
+    'availability_weeks', 'preferences'
+  ]);
+
+  const rawData = { ...parsed.data };
+  const preferences: Record<string, unknown> = {
+    ...(typeof rawData.preferences === 'object' && rawData.preferences !== null ? rawData.preferences : {}),
+  };
+
+  const payload: Record<string, unknown> = {
+    user_id: user.id,
+    updated_at: new Date().toISOString(),
+  };
+
+  for (const [key, val] of Object.entries(rawData)) {
+    if (knownCols.has(key)) {
+      payload[key] = val;
+    } else {
+      preferences[key] = val;
+    }
+  }
+  payload.preferences = preferences;
+
   const { data, error } = await supabase
     .from('profiles')
-    .upsert({ user_id: user.id, ...parsed.data, updated_at: new Date().toISOString() }, { onConflict: 'user_id' })
+    .upsert(payload, { onConflict: 'user_id' })
     .select()
     .single();
 

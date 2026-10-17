@@ -17,7 +17,10 @@ export const profileSchema = z.object({
   team_size: z.number().int().min(1).max(100).nullable().optional(),
   github_url: z.string().url('Invalid URL').nullable().optional().or(z.literal('')),
   portfolio_url: z.string().url('Invalid URL').nullable().optional().or(z.literal('')),
-  availability_weeks: z.number().min(0).max(104).nullable().optional(),
+  college: z.string().max(150).nullable().optional(),
+  phone_number: z.string().max(30).nullable().optional(),
+  date_of_birth: z.string().max(30).nullable().optional(),
+  gender: z.string().max(30).nullable().optional(),
   preferences: z.record(z.string(), z.unknown()).default({}),
 });
 

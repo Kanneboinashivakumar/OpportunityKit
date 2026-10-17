@@ -192,18 +192,22 @@ export default function ReviewPage() {
   const needsReviewCount = requirements.filter((r) => r.needs_review).length;
 
   return (
-    <div className="space-y-6 max-w-3xl">
+    <div className="space-y-6 max-w-4xl pb-16">
       <div>
-        <div className="flex items-center gap-2 text-sm text-[var(--color-text-muted)] mb-2">
-          <span>Review requirements</span>
-          <ChevronRight className="w-3 h-3" />
-          <span className="text-[var(--color-text)]">Run audit</span>
+        <div className="flex items-center gap-2 text-xs font-semibold text-[#777D85] mb-2 uppercase tracking-wider">
+          <span className="text-[#2D5542]">1. Review Requirements</span>
+          <ChevronRight className="w-3.5 h-3.5" />
+          <span>2. Deterministic Audit</span>
         </div>
-        <h1 className="text-xl font-semibold text-[var(--color-navy)] leading-tight">{opportunity.title}</h1>
-        <div className="flex items-center gap-3 mt-1">
-          <Badge variant="secondary" className="capitalize">{opportunity.type}</Badge>
+        <h1 className="text-2xl sm:text-3xl font-serif font-bold text-[#16233B] tracking-tight leading-tight">
+          {opportunity.title}
+        </h1>
+        <div className="flex items-center gap-3 mt-2">
+          <span className="px-2.5 py-0.5 rounded-md bg-[#FAF9F5] border border-[#E8E4DC] text-xs font-medium text-[#555B64] capitalize">
+            {opportunity.type}
+          </span>
           {opportunity.deadline && (
-            <span className="text-xs text-[var(--color-text-subtle)]">
+            <span className="text-xs text-[#777D85]">
               Deadline: {new Date(opportunity.deadline).toLocaleDateString('en-IN')}
             </span>
           )}
@@ -211,12 +215,16 @@ export default function ReviewPage() {
       </div>
 
       {needsReviewCount > 0 && (
-        <div className="flex items-start gap-3 p-4 rounded-lg bg-[var(--color-missing-bg)] border border-[var(--color-missing-border)]">
-          <Info className="w-4 h-4 text-[var(--color-missing)] shrink-0 mt-0.5" />
-          <p className="text-sm text-[var(--color-text-muted)]">
-            <strong>{needsReviewCount} requirement{needsReviewCount > 1 ? 's' : ''}</strong> flagged for review.
-            The AI was less certain — inspect source snippets and correct if needed before running the audit.
-          </p>
+        <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-[#FEF3C7]/60 border border-[#FDE68A] text-[#92400E]">
+          <Info className="w-5 h-5 text-[#B45309] shrink-0 mt-0.5" />
+          <div className="text-xs space-y-0.5">
+            <p className="font-semibold text-sm text-[#78350F]">
+              {needsReviewCount} requirement{needsReviewCount > 1 ? 's' : ''} flagged for review
+            </p>
+            <p className="text-[#92400E] leading-relaxed">
+              The AI flagged these items with lower confidence. Inspect source quotes, correct any values, and click &ldquo;Confirm&rdquo; to unlock the audit.
+            </p>
+          </div>
         </div>
       )}
 
@@ -290,16 +298,27 @@ export default function ReviewPage() {
         </div>
       )}
 
-      <div className="flex items-center gap-3 pb-6">
-        <Button size="lg" onClick={runAudit} disabled={running || needsReviewCount > 0}>
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3 pt-4 border-t border-[#E8E4DC]">
+        <Button
+          size="lg"
+          onClick={runAudit}
+          disabled={running || needsReviewCount > 0}
+          className="bg-[#16233B] hover:bg-[#20304C] text-white rounded-xl text-xs sm:text-sm font-medium py-3 px-6 h-auto shadow-sm"
+        >
           {running ? (
-            <><Loader2 className="w-4 h-4 animate-spin" /> Running audit…</>
+            <>
+              <Loader2 className="w-4 h-4 animate-spin mr-1.5" />
+              Running Deterministic Audit…
+            </>
           ) : (
-            <><CheckCircle className="w-4 h-4" /> Run eligibility audit</>
+            <>
+              <CheckCircle className="w-4 h-4 text-[#C6DEC9] mr-1.5" />
+              Run Eligibility Audit
+            </>
           )}
         </Button>
-        <p className="text-xs text-[var(--color-text-subtle)]">
-          Deterministic — no AI guessing on eligibility
+        <p className="text-xs text-[#777D85]">
+          100% deterministic rule evaluation against your saved profile.
         </p>
       </div>
     </div>
