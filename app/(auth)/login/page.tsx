@@ -46,7 +46,11 @@ function LoginForm() {
       });
 
       if (signInError) {
-        setError(signInError.message);
+        if (signInError.message.toLowerCase().includes('email not confirmed')) {
+          setError('Email not confirmed. Supabase requires email verification by default. Please check your inbox (and Spam folder) for the verification link, or disable "Confirm email" in your Supabase Auth settings.');
+        } else {
+          setError(signInError.message);
+        }
       } else {
         router.push(redirect);
         router.refresh();

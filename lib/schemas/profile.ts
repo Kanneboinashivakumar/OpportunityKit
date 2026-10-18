@@ -21,6 +21,14 @@ export const profileSchema = z.object({
   phone_number: z.string().max(30).nullable().optional(),
   date_of_birth: z.string().max(30).nullable().optional(),
   gender: z.string().max(30).nullable().optional(),
+  linkedin_url: z.string().url('Invalid URL').nullable().optional().or(z.literal('')),
+  tenth_school: z.string().max(150).nullable().optional(),
+  tenth_percentage: z.number().min(0).max(100).nullable().optional(),
+  twelfth_school: z.string().max(150).nullable().optional(),
+  twelfth_percentage: z.number().min(0).max(100).nullable().optional(),
+  preferred_location: z.string().max(100).nullable().optional(),
+  hackathon_interest: z.boolean().nullable().optional(),
+  hackathon_role: z.string().max(100).nullable().optional(),
   preferences: z.record(z.string(), z.unknown()).default({}),
 });
 

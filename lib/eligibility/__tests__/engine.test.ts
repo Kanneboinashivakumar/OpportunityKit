@@ -205,3 +205,52 @@ describe('auditRequirement — Branch', () => {
     expect(result.status).toBe('MISSING_INFO');
   });
 });
+
+describe('auditRequirement — Availability', () => {
+  it('returns MATCH when student availability (24 weeks / 6 months) meets requirement (4 months)', () => {
+    const result = auditRequirement({
+      requirement: makeReq({ category: 'availability', operator: 'GTE', expected_value: '4 months', label: '4 months internship' }),
+      profile: { ...baseProfile, availability_weeks: 24 },
+      opportunityId: 'opp-1',
+      ownerId: 'user-1',
+    });
+    expect(result.status).toBe('MATCH');
+    expect(result.reason_code).toBe('AVAILABILITY_MET');
+  });
+
+  it('returns MISMATCH when student availability (8 weeks) is below requirement (16 weeks)', () => {
+    const result = auditRequirement({
+      requirement: makeReq({ category: 'availability', operator: 'GTE', expected_value: '16 weeks', label: '16 weeks duration' }),
+      profile: { ...baseProfile, availability_weeks: 8 },
+      opportunityId: 'opp-1',
+      ownerId: 'user-1',
+    });
+    expect(result.status).toBe('MISMATCH');
+    expect(result.reason_code).toBe('AVAILABILITY_SHORT');
+  });
+});
+
+describe('auditRequirement — Skill Aliases', () => {
+  it('returns MATCH when React.js in profile satisfies React requirement', () => {
+    const result = auditRequirement({
+      requirement: makeReq({ category: 'skill', operator: 'ARRAY_INCLUDES', expected_value: 'React' }),
+      profile: { ...baseProfile, skills: ['React.js', 'Python'] },
+      opportunityId: 'opp-1',
+      ownerId: 'user-1',
+    });
+    expect(result.status).toBe('MATCH');
+  });
+});
+
+describe('auditRequirement — Documents', () => {
+  it('returns MATCH when resume requirement is evaluated for a completed profile', () => {
+    const result = auditRequirement({
+      requirement: makeReq({ category: 'document', operator: 'REQUIRED_TRUE', label: 'Resume / CV required' }),
+      profile: { ...baseProfile, full_name: 'Priya Sharma' },
+      opportunityId: 'opp-1',
+      ownerId: 'user-1',
+    });
+    expect(result.status).toBe('MATCH');
+  });
+});
+

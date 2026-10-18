@@ -78,6 +78,48 @@ function mismatch(reason_code: string, explanation: string, profileValue: unknow
   return { status: 'MISMATCH', reason_code, explanation, evaluated_profile_value: profileValue, next_action: next_action ?? null };
 }
 
+function parseWeeks(val: unknown): number | null {
+  if (typeof val === 'number' && Number.isFinite(val)) return Math.round(val);
+  if (typeof val !== 'string') return null;
+  const s = val.trim().toLowerCase();
+  const monthMatch = s.match(/(\d+(?:\.\d+)?)\s*(?:month|mo|m\b)/);
+  if (monthMatch) return Math.round(parseFloat(monthMatch[1]) * 4.33);
+  const weekMatch = s.match(/(\d+(?:\.\d+)?)\s*(?:week|wk|w\b)/);
+  if (weekMatch) return Math.round(parseFloat(weekMatch[1]));
+  const num = parseFloat(s);
+  return !isNaN(num) && isFinite(num) ? Math.round(num) : null;
+}
+
+function normalizeSkill(s: string): string {
+  const clean = s.trim().toLowerCase();
+  const map: Record<string, string> = {
+    'react.js': 'react',
+    'reactjs': 'react',
+    'node.js': 'nodejs',
+    'node': 'nodejs',
+    'js': 'javascript',
+    'ts': 'typescript',
+    'py': 'python',
+    'python3': 'python',
+    'postgres': 'postgresql',
+    'mongo': 'mongodb',
+    'k8s': 'kubernetes',
+    'c++': 'cpp',
+    'c#': 'csharp',
+  };
+  return map[clean] || clean.replace(/[^a-z0-9]/g, '');
+}
+
+function skillsMatch(profileSkill: string, reqSkill: string): boolean {
+  const p = profileSkill.trim().toLowerCase();
+  const r = reqSkill.trim().toLowerCase();
+  if (p === r) return true;
+  const np = normalizeSkill(p);
+  const nr = normalizeSkill(r);
+  if (np && nr && (np === nr || np.includes(nr) || nr.includes(np))) return true;
+  return false;
+}
+
 export function auditRequirement(input: AuditInput): AuditOutput {
   const { requirement: req, profile } = input;
 
@@ -91,25 +133,149 @@ export function auditRequirement(input: AuditInput): AuditOutput {
     return missingInfo('MANUAL_REVIEW', req.notes ?? 'This requirement needs manual review.', 'Review and confirm manually');
   }
 
+  // Availability / Duration matching (e.g. 4 months requirement vs 6 months availability)
+  if (req.category === 'availability') {
+    const profileWeeks = parseWeeks(profile.availability_weeks ?? (profile as any).preferences?.availability_weeks);
+    const reqWeeks = parseWeeks(req.expected_value) ?? parseWeeks(req.label);
+
+    if (profileWeeks === null) {
+      return missingInfo('PROFILE_AVAILABILITY_MISSING', 'Your profile does not specify your availability.', 'Add your availability in your profile');
+    }
+    if (reqWeeks === null) {
+      return missingInfo('EXPECTED_AVAILABILITY_UNCLEAR', 'The required duration is not clearly specified in the announcement.', 'Review requirement manually');
+    }
+
+    if (profileWeeks >= reqWeeks) {
+      return match(
+        'AVAILABILITY_MET',
+        `Your availability of ${profileWeeks} weeks (~${Math.round(profileWeeks / 4.33)} months) meets or exceeds the required ${reqWeeks} weeks (~${Math.round(reqWeeks / 4.33)} months).`,
+        profileWeeks
+      );
+    }
+    return mismatch(
+      'AVAILABILITY_SHORT',
+      `The opportunity requires at least ${reqWeeks} weeks of availability (~${Math.round(reqWeeks / 4.33)} months), but your profile indicates ${profileWeeks} weeks.`,
+      profileWeeks,
+      'Check if your schedule allows for a longer commitment before applying.'
+    );
+  }
+
+  // Skills matching
   if (req.category === 'skill') {
-    const expectedSkills = typeof req.expected_value === 'string'
-      ? [req.expected_value]
-      : Array.isArray(req.expected_value) && req.expected_value.every((item) => typeof item === 'string')
-        ? req.expected_value as string[]
-        : [];
+    let expectedSkills: string[] = [];
+    if (typeof req.expected_value === 'string' && req.expected_value.trim()) {
+      expectedSkills = [req.expected_value.trim()];
+    } else if (Array.isArray(req.expected_value)) {
+      expectedSkills = req.expected_value.filter((item): item is string => typeof item === 'string' && item.trim().length > 0);
+    } else if (req.label) {
+      // Fallback: extract from label
+      expectedSkills = [req.label.replace(/^skill:\s*/i, '').trim()];
+    }
+
     if (expectedSkills.length === 0) {
       return missingInfo('EXPECTED_SKILL_UNCLEAR', 'The required skill is not clear enough to evaluate.', 'Review this requirement manually');
     }
-    const knownSkills = new Set((profile.skills ?? []).map((skill) => skill.trim().toLowerCase()));
-    const confirmedGaps = new Set((profile.skill_gaps ?? []).map((skill) => skill.trim().toLowerCase()));
-    const requiredSkills = expectedSkills.map((skill) => skill.trim().toLowerCase());
-    const missing = requiredSkills.filter((skill) => !knownSkills.has(skill));
-    if (missing.length === 0) return match('SKILL_CONFIRMED', `Your profile confirms: ${expectedSkills.join(', ')}.`, profile.skills);
-    const confirmedMissing = missing.filter((skill) => confirmedGaps.has(skill));
-    if (confirmedMissing.length > 0) {
-      return mismatch('SKILL_GAP_CONFIRMED', `You confirmed that you do not currently have: ${expectedSkills.filter((skill) => confirmedGaps.has(skill.trim().toLowerCase())).join(', ')}.`, profile.skills, 'This is a confirmed skill gap; consider whether it is addressable before the deadline.');
+
+    const pSkills = profile.skills ?? [];
+    if (pSkills.length === 0) {
+      return missingInfo('PROFILE_VALUE_MISSING', 'Your profile has no technical skills listed yet.', 'Add your skills in your profile');
     }
-    return missingInfo('PROFILE_VALUE_MISSING', `Your profile does not say whether you have: ${expectedSkills.filter((skill) => !knownSkills.has(skill.trim().toLowerCase())).join(', ')}.`, 'Confirm whether you have this skill or record it as a current gap in your profile');
+
+    const confirmedGaps = new Set((profile.skill_gaps ?? []).map((s) => s.trim().toLowerCase()));
+
+    // Check if each expected skill is satisfied
+    const matchedSkills: string[] = [];
+    const missingSkills: string[] = [];
+
+    for (const es of expectedSkills) {
+      const found = pSkills.some((ps) => skillsMatch(ps, es));
+      if (found) {
+        matchedSkills.push(es);
+      } else {
+        missingSkills.push(es);
+      }
+    }
+
+    if (missingSkills.length === 0) {
+      return match('SKILL_CONFIRMED', `Your profile confirms verified skill: ${expectedSkills.join(', ')}.`, pSkills);
+    }
+
+    const hasConfirmedGap = missingSkills.some((s) => confirmedGaps.has(s.trim().toLowerCase()));
+    if (hasConfirmedGap) {
+      return mismatch(
+        'SKILL_GAP_CONFIRMED',
+        `You confirmed that you do not currently have: ${missingSkills.join(', ')}.`,
+        pSkills,
+        'This is a confirmed skill gap; consider whether it is addressable before the deadline.'
+      );
+    }
+
+    return missingInfo(
+      'PROFILE_VALUE_MISSING',
+      `Your profile does not say whether you have: ${missingSkills.join(', ')}.`,
+      'Confirm whether you have this skill or record it as a current gap in your profile'
+    );
+  }
+
+  // Academic Degree Program matching (e.g. B.Tech, B.E., M.Tech)
+  if (req.category === 'academic') {
+    const studentDegree = profile.degree?.trim();
+    if (!studentDegree) {
+      return missingInfo('PROFILE_DEGREE_MISSING', 'Your degree program is not set in your profile.', 'Add your degree in your profile');
+    }
+
+    const exp = req.expected_value;
+    const reqStr = typeof exp === 'string' ? exp : Array.isArray(exp) ? exp.join(' ') : req.label;
+    const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+    const sd = norm(studentDegree);
+    const rd = norm(reqStr);
+
+    const matchesDegree = rd.includes(sd) || sd.includes(rd) ||
+      (sd.includes('btech') && rd.includes('be')) ||
+      (sd.includes('be') && rd.includes('btech')) ||
+      rd.includes('any') || rd.includes('all');
+
+    if (matchesDegree) {
+      return match('DEGREE_MET', `Your degree (${studentDegree}) satisfies the requirement (${req.label}).`, studentDegree);
+    }
+    return mismatch('DEGREE_NOT_MET', `Opportunity requires ${reqStr}, but your degree is ${studentDegree}.`, studentDegree, 'Verify whether equivalent degrees are accepted.');
+  }
+
+  // Branch matching (e.g. Computer Science, IT)
+  if (req.category === 'branch') {
+    const studentBranch = profile.branch?.trim();
+    if (!studentBranch) {
+      return missingInfo('PROFILE_BRANCH_MISSING', 'Your branch/major is not set in your profile.', 'Add your branch in your profile');
+    }
+
+    const exp = req.expected_value;
+    const reqStr = typeof exp === 'string' ? exp : Array.isArray(exp) ? exp.join(' ') : req.label;
+    const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+    const sb = norm(studentBranch);
+    const rb = norm(reqStr);
+
+    const matchesBranch = rb.includes(sb) || sb.includes(rb) ||
+      (sb.includes('cs') && (rb.includes('cs') || rb.includes('computer'))) ||
+      (sb.includes('computer') && (rb.includes('cs') || rb.includes('it') || rb.includes('computer'))) ||
+      rb.includes('any') || rb.includes('all') || rb.includes('open');
+
+    if (matchesBranch) {
+      return match('BRANCH_MET', `Your branch (${studentBranch}) satisfies the requirement (${req.label}).`, studentBranch);
+    }
+    return mismatch('BRANCH_NOT_MET', `Opportunity requires branch ${reqStr}, but your profile lists ${studentBranch}.`, studentBranch, 'Check if other branches are eligible.');
+  }
+
+  // Document matching (Resume / CV)
+  if (req.category === 'document') {
+    const labelLow = req.label.toLowerCase();
+    if (labelLow.includes('resume') || labelLow.includes('cv')) {
+      if (profile.full_name) {
+        return match('RESUME_ON_FILE', 'You have an active student profile with your verified credentials on file.', true);
+      }
+      return missingInfo('RESUME_MISSING', 'A resume is required for this application.', 'Complete your profile with your resume details');
+    }
   }
 
   const profileValue = getProfileValue(req, profile);

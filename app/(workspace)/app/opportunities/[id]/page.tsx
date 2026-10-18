@@ -347,7 +347,34 @@ export default function OpportunityDetailPage() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 self-start md:self-center">
+          <div className="flex items-center gap-2 self-start md:self-center flex-wrap">
+            {opportunity.source_url ? (
+              <a
+                href={opportunity.source_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button
+                  size="sm"
+                  className="bg-[#2D5542] hover:bg-[#203D2F] text-white rounded-xl text-xs font-semibold h-9 gap-1.5 shadow-sm"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  Submit Application
+                </Button>
+              </a>
+            ) : (
+              <Button
+                size="sm"
+                onClick={() => {
+                  alert('No external portal URL was extracted from this announcement. Please check the announcement text or official company careers page.');
+                }}
+                className="bg-[#2D5542] hover:bg-[#203D2F] text-white rounded-xl text-xs font-semibold h-9 gap-1.5 shadow-sm"
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                Submit Application
+              </Button>
+            )}
+
             <Link href={`/app/analyze/${id}/review`}>
               <Button
                 variant="outline"
@@ -613,6 +640,39 @@ export default function OpportunityDetailPage() {
                 </div>
               );
             })}
+          </div>
+
+          {/* Direct Portal Apply Banner */}
+          <div className="mt-4 p-4 rounded-xl bg-[#E9F0EB]/60 border border-[#C6DEC9] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="space-y-0.5">
+              <h3 className="font-semibold text-xs sm:text-sm text-[#16233B] flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-[#2D5542]" /> Ready to Apply?
+              </h3>
+              <p className="text-xs text-[#555B64]">
+                Proceed to the official application portal to submit your application before the deadline.
+              </p>
+            </div>
+            {opportunity.source_url ? (
+              <a
+                href={opportunity.source_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="shrink-0"
+              >
+                <Button className="bg-[#2D5542] hover:bg-[#203D2F] text-white rounded-xl text-xs font-semibold h-9 px-4 gap-1.5 shadow-sm">
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  Submit on Official Portal
+                </Button>
+              </a>
+            ) : (
+              <Button
+                onClick={() => alert('No external portal URL was found in this announcement. Please check the official organization website or announcement text.')}
+                className="bg-[#2D5542] hover:bg-[#203D2F] text-white rounded-xl text-xs font-semibold h-9 px-4 gap-1.5 shadow-sm shrink-0"
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                Submit Application
+              </Button>
+            )}
           </div>
         </div>
       )}

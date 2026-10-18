@@ -32,7 +32,7 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="hidden md:flex flex-col w-64 min-h-screen border-r border-[#E8E4DC] bg-[#FAF9F5] select-none">
+    <aside className="hidden md:flex flex-col w-64 h-screen sticky top-0 border-r border-[#E8E4DC] bg-[#FAF9F5] select-none shrink-0 overflow-y-auto">
       {/* Brand Header */}
       <div className="h-16 px-6 flex items-center border-b border-[#E8E4DC]">
         <Link href="/app" className="flex items-center gap-2">

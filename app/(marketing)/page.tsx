@@ -32,7 +32,7 @@ export default function LandingPage() {
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-[#555B64]">
             <Link href="#product" className="hover:text-[#16233B] transition-colors">Product</Link>
             <Link href="#how-it-works" className="hover:text-[#16233B] transition-colors">How it works</Link>
-            <Link href="#for-colleges" className="hover:text-[#16233B] transition-colors">For Colleges</Link>
+            <Link href="#categories" className="hover:text-[#16233B] transition-colors">For Colleges</Link>
             <Link href="#resources" className="hover:text-[#16233B] transition-colors">Resources</Link>
             <Link href="#pricing" className="hover:text-[#16233B] transition-colors">Pricing</Link>
           </div>
@@ -130,36 +130,38 @@ export default function LandingPage() {
       </section>
 
       {/* Institutional Trust Bar */}
-      <section className="bg-white border-b border-[#E8E4DC] py-6 sm:py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between gap-6">
-          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 sm:gap-8 text-xs font-medium text-[#777D85]">
-            <span className="text-[#999DA3] uppercase tracking-wider text-[11px]">Trusted by students from</span>
-            <span className="px-3 py-1 bg-[#F4EFEA] rounded-md text-[#20242B] font-semibold">IITs</span>
-            <span className="px-3 py-1 bg-[#F4EFEA] rounded-md text-[#20242B] font-semibold">NITs</span>
-            <span className="px-3 py-1 bg-[#F4EFEA] rounded-md text-[#20242B] font-semibold">IIITs</span>
-            <span className="px-3 py-1 bg-[#F4EFEA] rounded-md text-[#20242B] font-semibold">State Universities</span>
-            <span className="px-3 py-1 bg-[#F4EFEA] rounded-md text-[#20242B] font-semibold">Private Colleges</span>
+      <section className="bg-white border-b border-[#E8E4DC] py-5 sm:py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between gap-4 lg:gap-8">
+          <div className="flex items-center flex-wrap sm:flex-nowrap justify-center lg:justify-start gap-2 sm:gap-2.5 text-xs font-medium text-[#777D85]">
+            <span className="text-[#999DA3] uppercase tracking-wider text-[11px] font-semibold whitespace-nowrap mr-1">Trusted by students from</span>
+            <span className="px-2.5 py-1 bg-[#F4EFEA] rounded-md text-[#20242B] font-semibold whitespace-nowrap">IITs</span>
+            <span className="px-2.5 py-1 bg-[#F4EFEA] rounded-md text-[#20242B] font-semibold whitespace-nowrap">NITs</span>
+            <span className="px-2.5 py-1 bg-[#F4EFEA] rounded-md text-[#20242B] font-semibold whitespace-nowrap">IIITs</span>
+            <span className="px-2.5 py-1 bg-[#F4EFEA] rounded-md text-[#20242B] font-semibold whitespace-nowrap">State Universities</span>
+            <span className="px-2.5 py-1 bg-[#F4EFEA] rounded-md text-[#20242B] font-semibold whitespace-nowrap">Private Colleges</span>
           </div>
 
-          <div className="flex items-center gap-8 divide-x divide-[#E8E4DC] text-center">
-            <div className="pl-0">
-              <p className="text-lg font-bold text-[#16233B]">10K+</p>
-              <p className="text-xs text-[#777D85]">Students</p>
+          <div className="flex items-center justify-center gap-5 sm:gap-8 text-center shrink-0 flex-nowrap">
+            <div className="px-1 text-center shrink-0">
+              <p className="text-xl sm:text-2xl font-bold text-[#16233B]">10K+</p>
+              <p className="text-xs text-[#777D85] whitespace-nowrap">Students</p>
             </div>
-            <div className="pl-8">
-              <p className="text-lg font-bold text-[#16233B]">500+</p>
-              <p className="text-xs text-[#777D85]">Opportunities analyzed</p>
+            <div className="w-px h-8 bg-[#E8E4DC] shrink-0" />
+            <div className="px-1 text-center shrink-0">
+              <p className="text-xl sm:text-2xl font-bold text-[#16233B]">500+</p>
+              <p className="text-xs text-[#777D85] whitespace-nowrap">Opportunities analyzed</p>
             </div>
-            <div className="pl-8">
-              <p className="text-lg font-bold text-[#16233B]">4.8/5</p>
-              <p className="text-xs text-[#777D85]">User satisfaction</p>
+            <div className="w-px h-8 bg-[#E8E4DC] shrink-0" />
+            <div className="px-1 text-center shrink-0">
+              <p className="text-xl sm:text-2xl font-bold text-[#16233B]">4.8/5</p>
+              <p className="text-xs text-[#777D85] whitespace-nowrap">User satisfaction</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 4 Feature Value Pillars */}
-      <section id="product" className="py-16 md:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 4 Feature Value Pillars & Resources */}
+      <section id="resources" className="py-16 md:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
             {
@@ -214,10 +216,17 @@ export default function LandingPage() {
                 title: "Paste an opportunity",
                 desc: "Paste the announcement link, PDF, or text. Our AI extracts all the key requirements.",
                 visual: (
-                  <div className="mt-4 p-4 rounded-xl bg-[#FAF9F5] border border-[#E8E4DC] text-xs font-mono text-[#555B64] space-y-2">
-                    <div className="h-2.5 bg-[#E8E4DC] rounded-full w-3/4" />
-                    <div className="h-2.5 bg-[#E8E4DC] rounded-full w-full" />
-                    <div className="h-2.5 bg-[#E8E4DC] rounded-full w-1/2" />
+                  <div className="mt-6 h-[116px] p-3 rounded-xl bg-white border border-[#E8E4DC] shadow-xs flex flex-col justify-between text-xs">
+                    <div className="flex items-center justify-between p-2 rounded-lg bg-[#FAF9F5] border border-[#E8E4DC]/80">
+                      <span className="font-mono text-xs text-[#20242B] truncate max-w-[170px]">careers.google.com/intern</span>
+                      <span className="text-[10px] font-semibold text-[#16233B] bg-[#F4EFEA] border border-[#E0DCD3] px-2 py-0.5 rounded shrink-0 flex items-center gap-1">
+                        <Check className="w-3 h-3 text-[#16233B]" /> Extracted
+                      </span>
+                    </div>
+                    <div className="p-2 rounded-lg bg-[#FAF9F5] border border-[#E8E4DC]/80 space-y-0.5 text-left">
+                      <p className="font-semibold text-[#16233B] text-xs truncate">Software Engineering Intern 2025</p>
+                      <p className="text-[11px] text-[#555B64] truncate">B.Tech / B.E. · CGPA &ge; 7.5 · Python, React</p>
+                    </div>
                   </div>
                 )
               },
@@ -226,14 +235,14 @@ export default function LandingPage() {
                 title: "Check your eligibility",
                 desc: "We compare the requirements with your profile and show clear match, mismatch, and missing information.",
                 visual: (
-                  <div className="mt-4 p-4 rounded-xl bg-[#FAF9F5] border border-[#E8E4DC] text-xs space-y-2">
-                    <div className="flex items-center justify-between text-[#16A34A] bg-[#F0FDF4] px-2.5 py-1 rounded-md border border-[#BBF7D0]">
-                      <span>CGPA &ge; 7.0</span>
-                      <span>MATCH ✓</span>
+                  <div className="mt-6 h-[116px] p-3 rounded-xl bg-white border border-[#E8E4DC] shadow-xs flex flex-col justify-between text-xs">
+                    <div className="flex items-center justify-between p-2 rounded-lg bg-[#FAF9F5] border border-[#E8E4DC]/80">
+                      <span className="font-medium text-xs text-[#20242B]">CGPA &ge; 7.5 (Profile: 8.2)</span>
+                      <span className="text-[10px] font-semibold text-[#16233B] bg-[#F4EFEA] border border-[#E0DCD3] px-2 py-0.5 rounded shrink-0">MATCH ✓</span>
                     </div>
-                    <div className="flex items-center justify-between text-[#D97706] bg-[#FFFBEB] px-2.5 py-1 rounded-md border border-[#FDE68A]">
-                      <span>Resume required</span>
-                      <span>MISSING INFO</span>
+                    <div className="flex items-center justify-between p-2 rounded-lg bg-[#FAF9F5] border border-[#E8E4DC]/80">
+                      <span className="font-medium text-xs text-[#20242B]">Resume required (PDF)</span>
+                      <span className="text-[10px] font-semibold text-[#16233B] bg-[#F4EFEA] border border-[#E0DCD3] px-2 py-0.5 rounded shrink-0">MISSING INFO</span>
                     </div>
                   </div>
                 )
@@ -243,26 +252,32 @@ export default function LandingPage() {
                 title: "Get your action plan",
                 desc: "Understand what to do next, fill the gaps, and apply with confidence before the deadline.",
                 visual: (
-                  <div className="mt-4 p-4 rounded-xl bg-[#FAF9F5] border border-[#E8E4DC] text-xs space-y-2">
-                    <div className="flex items-center gap-2 text-[#20242B]">
-                      <span className="w-4 h-4 rounded-full bg-[#16233B] text-white flex items-center justify-center text-[10px]">1</span>
-                      <span>Upload updated resume</span>
+                  <div className="mt-6 h-[116px] p-3 rounded-xl bg-white border border-[#E8E4DC] shadow-xs flex flex-col justify-between text-xs">
+                    <div className="flex items-center justify-between p-2 rounded-lg bg-[#FAF9F5] border border-[#E8E4DC]/80">
+                      <div className="flex items-center gap-2 text-[#20242B] min-w-0">
+                        <span className="w-4 h-4 rounded-full bg-[#16233B] text-white flex items-center justify-center text-[10px] font-semibold shrink-0">1</span>
+                        <span className="text-xs font-medium truncate">Upload verified resume</span>
+                      </div>
+                      <span className="text-[10px] font-semibold text-[#16233B] bg-[#F4EFEA] border border-[#E0DCD3] px-2 py-0.5 rounded shrink-0">2 days left</span>
                     </div>
-                    <div className="flex items-center gap-2 text-[#20242B]">
-                      <span className="w-4 h-4 rounded-full bg-[#16233B] text-white flex items-center justify-center text-[10px]">2</span>
-                      <span>Submit application by Nov 5</span>
+                    <div className="flex items-center justify-between p-2 rounded-lg bg-[#FAF9F5] border border-[#E8E4DC]/80">
+                      <div className="flex items-center gap-2 text-[#20242B] min-w-0">
+                        <span className="w-4 h-4 rounded-full bg-[#16233B] text-white flex items-center justify-center text-[10px] font-semibold shrink-0">2</span>
+                        <span className="text-xs font-medium truncate">Submit official application</span>
+                      </div>
+                      <span className="text-[10px] font-semibold text-[#16233B] bg-[#F4EFEA] border border-[#E0DCD3] px-2 py-0.5 rounded shrink-0">Ready</span>
                     </div>
                   </div>
                 )
               }
             ].map((s, idx) => (
-              <div key={idx} className="bg-[#FAF9F5] p-6 rounded-2xl border border-[#E8E4DC] flex flex-col justify-between">
-                <div>
+              <div key={idx} className="bg-[#FAF9F5] p-6 rounded-2xl border border-[#E8E4DC] flex flex-col justify-between hover:border-[#D4CCC2] transition-all h-full">
+                <div className="flex-1">
                   <div className="w-8 h-8 rounded-full bg-[#16233B] text-white font-bold text-xs flex items-center justify-center mb-4">
                     {s.step}
                   </div>
                   <h3 className="font-semibold text-base text-[#16233B] mb-2">{s.title}</h3>
-                  <p className="text-xs text-[#555B64] leading-relaxed">{s.desc}</p>
+                  <p className="text-xs text-[#555B64] leading-relaxed min-h-[38px]">{s.desc}</p>
                 </div>
                 {s.visual}
               </div>
@@ -283,7 +298,7 @@ export default function LandingPage() {
                   <span className="font-semibold text-sm text-[#16233B]">OpportunityKit Dashboard</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-[#16A34A]" />
+                  <span className="w-2 h-2 rounded-full bg-[#2D5542]" />
                   <span className="text-xs text-[#777D85]">Live Preview</span>
                 </div>
               </div>
@@ -292,9 +307,9 @@ export default function LandingPage() {
               <div className="grid grid-cols-4 gap-2.5">
                 {[
                   { label: "Analyzed", val: "12", col: "text-[#16233B]" },
-                  { label: "Eligible", val: "8", col: "text-[#16A34A]" },
-                  { label: "In Progress", val: "3", col: "text-[#D97706]" },
-                  { label: "Deadlines", val: "5", col: "text-[#DC2626]" },
+                  { label: "Eligible", val: "8", col: "text-[#2D5542]" },
+                  { label: "In Progress", val: "3", col: "text-[#7C5E28]" },
+                  { label: "Deadlines", val: "5", col: "text-[#8B3A34]" },
                 ].map((stat, i) => (
                   <div key={i} className="p-3 rounded-xl bg-[#FAF9F5] border border-[#E8E4DC] text-center">
                     <p className={`text-xl font-bold ${stat.col}`}>{stat.val}</p>
@@ -306,9 +321,9 @@ export default function LandingPage() {
               {/* Recent opportunity items inside mockup */}
               <div className="space-y-2 pt-1">
                 {[
-                  { title: "Google Summer Internship 2025", role: "Software Engineering", status: "Eligible", statusCol: "bg-[#F0FDF4] text-[#16A34A] border-[#BBF7D0]", time: "2 days ago" },
-                  { title: "Microsoft Learn Student Ambassador", role: "Community Program", status: "Needs Work", statusCol: "bg-[#FFFBEB] text-[#D97706] border-[#FDE68A]", time: "5 days ago" },
-                  { title: "ISRO Student Research Programme", role: "Aerospace Internship", status: "Not Eligible", statusCol: "bg-[#FEF2F2] text-[#DC2626] border-[#FECACA]", time: "1 week ago" },
+                  { title: "Google Summer Internship 2025", role: "Software Engineering", status: "Eligible", statusCol: "bg-[#E9F0EB] text-[#2D5542] border-[#D5E4D8]", time: "2 days ago" },
+                  { title: "Microsoft Learn Student Ambassador", role: "Community Program", status: "Needs Work", statusCol: "bg-[#F7F2E8] text-[#7C5E28] border-[#EAE0D0]", time: "5 days ago" },
+                  { title: "ISRO Student Research Programme", role: "Aerospace Internship", status: "Not Eligible", statusCol: "bg-[#F6ECEB] text-[#8B3A34] border-[#ECD9D7]", time: "1 week ago" },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center justify-between p-3 rounded-xl bg-[#FAF9F5] border border-[#E8E4DC] text-xs">
                     <div>
@@ -365,7 +380,7 @@ export default function LandingPage() {
       </section>
 
       {/* Opportunity Categories Grid */}
-      <section className="py-16 bg-white border-y border-[#E8E4DC]">
+      <section id="categories" className="py-16 bg-white border-y border-[#E8E4DC] scroll-mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-xl mx-auto mb-12">
             <p className="text-xs font-semibold tracking-wider uppercase text-[#2D5542] mb-2">Opportunity Categories</p>
@@ -420,76 +435,106 @@ export default function LandingPage() {
           {/* 3 Interactive Cards (MATCH, MISSING INFO, MISMATCH) */}
           <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4">
             {/* Card 1: MATCH */}
-            <div className="bg-white p-5 rounded-2xl border border-[#BBF7D0] shadow-xs space-y-4">
-              <div className="flex items-center gap-2 text-[#16A34A] font-semibold text-sm">
-                <CheckCircle2 className="w-5 h-5" />
-                <span>MATCH</span>
-              </div>
-              <p className="text-[11px] text-[#777D85]">You meet this requirement.</p>
-              <div className="space-y-3 pt-1">
-                <div className="p-3 rounded-xl bg-[#F0FDF4] border border-[#BBF7D0]/60 space-y-1.5">
-                  <p className="text-xs font-semibold text-[#16233B]">Education</p>
-                  <p className="text-[11px] text-[#555B64]">B.Tech/BE in CSE, IT or related branch</p>
-                  <span className="inline-block px-2 py-0.5 rounded text-[10px] font-semibold bg-[#DCFCE7] text-[#166534]">
-                    Your profile: B.Tech CSE ✓
-                  </span>
+            <div className="bg-white p-5 rounded-2xl border border-[#D5E4D8] shadow-xs space-y-4 flex flex-col justify-between h-full">
+              <div>
+                <div className="flex items-center gap-2 text-[#2D5542] font-semibold text-sm">
+                  <CheckCircle2 className="w-5 h-5 text-[#2D5542]" />
+                  <span>MATCH</span>
                 </div>
-                <div className="p-3 rounded-xl bg-[#F0FDF4] border border-[#BBF7D0]/60 space-y-1.5">
-                  <p className="text-xs font-semibold text-[#16233B]">CGPA</p>
-                  <p className="text-[11px] text-[#555B64]">Minimum 7.0</p>
-                  <span className="inline-block px-2 py-0.5 rounded text-[10px] font-semibold bg-[#DCFCE7] text-[#166534]">
-                    Your profile: 8.2 ✓
-                  </span>
+                <p className="text-[11px] text-[#777D85] min-h-[32px] flex items-center mt-1">You meet this requirement.</p>
+              </div>
+              <div className="space-y-3 flex-1">
+                <div className="p-3.5 rounded-xl bg-[#FAF9F5] border border-[#E8E4DC] h-[116px] flex flex-col justify-between">
+                  <div className="space-y-1">
+                    <p className="text-xs font-semibold text-[#16233B]">Education</p>
+                    <p className="text-[11px] text-[#555B64] leading-snug line-clamp-2">B.Tech/BE in CSE, IT or related branch</p>
+                  </div>
+                  <div>
+                    <span className="inline-block px-2.5 py-0.5 rounded-md text-[10px] font-semibold bg-[#E9F0EB] text-[#2D5542] border border-[#D5E4D8]">
+                      Your profile: B.Tech CSE ✓
+                    </span>
+                  </div>
+                </div>
+                <div className="p-3.5 rounded-xl bg-[#FAF9F5] border border-[#E8E4DC] h-[116px] flex flex-col justify-between">
+                  <div className="space-y-1">
+                    <p className="text-xs font-semibold text-[#16233B]">CGPA</p>
+                    <p className="text-[11px] text-[#555B64] leading-snug line-clamp-2">Minimum 7.0 cumulative grade point</p>
+                  </div>
+                  <div>
+                    <span className="inline-block px-2.5 py-0.5 rounded-md text-[10px] font-semibold bg-[#E9F0EB] text-[#2D5542] border border-[#D5E4D8]">
+                      Your profile: 8.2 ✓
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Card 2: MISSING INFO */}
-            <div className="bg-white p-5 rounded-2xl border border-[#FDE68A] shadow-xs space-y-4">
-              <div className="flex items-center gap-2 text-[#D97706] font-semibold text-sm">
-                <AlertCircle className="w-5 h-5" />
-                <span>MISSING INFO</span>
-              </div>
-              <p className="text-[11px] text-[#777D85]">We need more information from you.</p>
-              <div className="space-y-3 pt-1">
-                <div className="p-3 rounded-xl bg-[#FFFBEB] border border-[#FDE68A]/60 space-y-1.5">
-                  <p className="text-xs font-semibold text-[#16233B]">Certificates</p>
-                  <p className="text-[11px] text-[#555B64]">NPTEL/Coursera certificate in ML/AI (preferred)</p>
-                  <span className="inline-block text-[10px] font-semibold text-[#D97706] hover:underline cursor-pointer">
-                    Add certification &rarr;
-                  </span>
+            <div className="bg-white p-5 rounded-2xl border border-[#EAE0D0] shadow-xs space-y-4 flex flex-col justify-between h-full">
+              <div>
+                <div className="flex items-center gap-2 text-[#7C5E28] font-semibold text-sm">
+                  <AlertCircle className="w-5 h-5 text-[#7C5E28]" />
+                  <span>MISSING INFO</span>
                 </div>
-                <div className="p-3 rounded-xl bg-[#FFFBEB] border border-[#FDE68A]/60 space-y-1.5">
-                  <p className="text-xs font-semibold text-[#16233B]">Resume</p>
-                  <p className="text-[11px] text-[#555B64]">Updated resume required (PDF, &lt; 2 MB)</p>
-                  <span className="inline-block text-[10px] font-semibold text-[#D97706] hover:underline cursor-pointer">
-                    Upload resume &rarr;
-                  </span>
+                <p className="text-[11px] text-[#777D85] min-h-[32px] flex items-center mt-1">We need more information from you.</p>
+              </div>
+              <div className="space-y-3 flex-1">
+                <div className="p-3.5 rounded-xl bg-[#FAF9F5] border border-[#E8E4DC] h-[116px] flex flex-col justify-between">
+                  <div className="space-y-1">
+                    <p className="text-xs font-semibold text-[#16233B]">Certificates</p>
+                    <p className="text-[11px] text-[#555B64] leading-snug line-clamp-2">NPTEL/Coursera certificate in ML/AI (preferred)</p>
+                  </div>
+                  <div>
+                    <span className="inline-block px-2.5 py-0.5 rounded-md text-[10px] font-semibold bg-[#F7F2E8] text-[#7C5E28] border border-[#EAE0D0] hover:bg-[#EFE8DC] cursor-pointer transition-colors">
+                      Add certification &rarr;
+                    </span>
+                  </div>
+                </div>
+                <div className="p-3.5 rounded-xl bg-[#FAF9F5] border border-[#E8E4DC] h-[116px] flex flex-col justify-between">
+                  <div className="space-y-1">
+                    <p className="text-xs font-semibold text-[#16233B]">Resume</p>
+                    <p className="text-[11px] text-[#555B64] leading-snug line-clamp-2">Updated resume required (PDF, &lt; 2 MB)</p>
+                  </div>
+                  <div>
+                    <span className="inline-block px-2.5 py-0.5 rounded-md text-[10px] font-semibold bg-[#F7F2E8] text-[#7C5E28] border border-[#EAE0D0] hover:bg-[#EFE8DC] cursor-pointer transition-colors">
+                      Upload resume &rarr;
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Card 3: MISMATCH */}
-            <div className="bg-white p-5 rounded-2xl border border-[#FECACA] shadow-xs space-y-4">
-              <div className="flex items-center gap-2 text-[#DC2626] font-semibold text-sm">
-                <XCircle className="w-5 h-5" />
-                <span>MISMATCH</span>
-              </div>
-              <p className="text-[11px] text-[#777D85]">You don&apos;t meet this requirement.</p>
-              <div className="space-y-3 pt-1">
-                <div className="p-3 rounded-xl bg-[#FEF2F2] border border-[#FECACA]/60 space-y-1.5">
-                  <p className="text-xs font-semibold text-[#16233B]">Graduation Year</p>
-                  <p className="text-[11px] text-[#555B64]">Must be graduating in 2026</p>
-                  <span className="inline-block px-2 py-0.5 rounded text-[10px] font-semibold bg-[#FEE2E2] text-[#991B1B]">
-                    Your profile: 2027 ✕
-                  </span>
+            <div className="bg-white p-5 rounded-2xl border border-[#ECD9D7] shadow-xs space-y-4 flex flex-col justify-between h-full">
+              <div>
+                <div className="flex items-center gap-2 text-[#8B3A34] font-semibold text-sm">
+                  <XCircle className="w-5 h-5 text-[#8B3A34]" />
+                  <span>MISMATCH</span>
                 </div>
-                <div className="p-3 rounded-xl bg-[#FEF2F2] border border-[#FECACA]/60 space-y-1.5">
-                  <p className="text-xs font-semibold text-[#16233B]">Location</p>
-                  <p className="text-[11px] text-[#555B64]">Open only for India residents</p>
-                  <span className="inline-block px-2 py-0.5 rounded text-[10px] font-semibold bg-[#DCFCE7] text-[#166534]">
-                    Your profile: India (✓)
-                  </span>
+                <p className="text-[11px] text-[#777D85] min-h-[32px] flex items-center mt-1">You don&apos;t meet this requirement.</p>
+              </div>
+              <div className="space-y-3 flex-1">
+                <div className="p-3.5 rounded-xl bg-[#FAF9F5] border border-[#E8E4DC] h-[116px] flex flex-col justify-between">
+                  <div className="space-y-1">
+                    <p className="text-xs font-semibold text-[#16233B]">Graduation Year</p>
+                    <p className="text-[11px] text-[#555B64] leading-snug line-clamp-2">Must be graduating in batch of 2026</p>
+                  </div>
+                  <div>
+                    <span className="inline-block px-2.5 py-0.5 rounded-md text-[10px] font-semibold bg-[#F6ECEB] text-[#8B3A34] border border-[#ECD9D7]">
+                      Your profile: 2027 ✕
+                    </span>
+                  </div>
+                </div>
+                <div className="p-3.5 rounded-xl bg-[#FAF9F5] border border-[#E8E4DC] h-[116px] flex flex-col justify-between">
+                  <div className="space-y-1">
+                    <p className="text-xs font-semibold text-[#16233B]">Location</p>
+                    <p className="text-[11px] text-[#555B64] leading-snug line-clamp-2">Open only for full-time India residents</p>
+                  </div>
+                  <div>
+                    <span className="inline-block px-2.5 py-0.5 rounded-md text-[10px] font-semibold bg-[#E9F0EB] text-[#2D5542] border border-[#D5E4D8]">
+                      Your profile: India (✓)
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -536,7 +581,7 @@ export default function LandingPage() {
                     "Profile management",
                   ].map((feat, i) => (
                     <div key={i} className="flex items-center gap-2.5 text-xs text-[#20242B]">
-                      <Check className="w-4 h-4 text-[#16A34A] shrink-0" />
+                      <Check className="w-4 h-4 text-[#2D5542] shrink-0" />
                       <span>{feat}</span>
                     </div>
                   ))}
@@ -578,7 +623,7 @@ export default function LandingPage() {
                     "Priority support and onboarding",
                   ].map((feat, i) => (
                     <div key={i} className="flex items-center gap-2.5 text-xs text-[#20242B]">
-                      <Check className="w-4 h-4 text-[#16A34A] shrink-0" />
+                      <Check className="w-4 h-4 text-[#2D5542] shrink-0" />
                       <span>{feat}</span>
                     </div>
                   ))}
@@ -793,8 +838,8 @@ export default function LandingPage() {
                 </Button>
               </Link>
               <Link href="#how-it-works">
-                <Button variant="outline" size="lg" className="border-white/30 text-white hover:bg-white/10 h-12 px-6 rounded-xl text-sm flex items-center gap-2">
-                  <Play className="w-4 h-4 fill-current" /> Watch Demo
+                <Button size="lg" className="bg-[#16233B]/70 hover:bg-[#16233B]/90 text-white border border-white/30 backdrop-blur-sm h-12 px-6 rounded-xl text-sm font-semibold flex items-center gap-2 shadow-sm">
+                  <Play className="w-4 h-4 fill-current text-[#A7F3D0]" /> Watch Demo
                 </Button>
               </Link>
             </div>
@@ -833,7 +878,7 @@ export default function LandingPage() {
                 <Link href="#product" className="hover:text-[#16233B]">Features</Link>
                 <Link href="#how-it-works" className="hover:text-[#16233B]">How it works</Link>
                 <Link href="#pricing" className="hover:text-[#16233B]">Pricing</Link>
-                <Link href="/app/campus-tpo" className="hover:text-[#16233B]">For Colleges</Link>
+                <Link href="#categories" className="hover:text-[#16233B]">For Colleges</Link>
               </div>
             </div>
 

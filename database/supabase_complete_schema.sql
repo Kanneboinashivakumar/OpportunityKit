@@ -1,7 +1,7 @@
 -- ==============================================================================
 -- OpportunityKit Complete Database Schema
 -- Run this script in your Supabase SQL Editor:
--- https://supabase.com/dashboard/project/jmesdefkitbarhejxuvn/sql/new
+-- https://supabase.com/dashboard/project/<your-project-ref>/sql/new
 -- ==============================================================================
 
 -- 1. Enable required extensions
